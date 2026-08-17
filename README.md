@@ -369,4 +369,4 @@ devtools::install_github("expersso/OECD")
 install.packages("cmdstanr", repos = c('https://stan-dev.r-universe.dev', getOption("repos")))
 ```
 
-The analysis has been tested on **R 4.5.2** on macOS.
+The analysis has been tested on **R 4.6.1** on macOS.
