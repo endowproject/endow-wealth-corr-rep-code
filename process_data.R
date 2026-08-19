@@ -286,6 +286,7 @@ for (site in intersect(normal_gender_q_sites, names(sharing_unit))) {
 #     "WL",
 #     "AV",
 #     "DJ",
+#     "PQ",
 #     "PE",
 #     "TZ",
 #     "AP",
@@ -503,7 +504,7 @@ for (site in names(kinship)){
   kin_edge[[site]]$sui <- residents[[site]]$su_id[match(kin_edge[[site]]$i, residents[[site]]$personid)]
   kin_edge[[site]]$suj <- residents[[site]]$su_id[match(kin_edge[[site]]$j, residents[[site]]$personid)]
   # create a dyad id
-  kin_edge[[site]]$dyad_id <- paste(kin_edge[[site]]$sui, "_", kin_edge[[site]]$suj, sep = "")
+  kin_edge[[site]]$dyad_id <- paste(kin_edge[[site]]$sui, "--", kin_edge[[site]]$suj, sep = "")
 
   # Get average and max relatedness between households
   su_dyads[[site]] <- kin_edge[[site]] %>%
@@ -527,7 +528,7 @@ for (site in names(kinship)){
   # })
 
   # Separate out dyad ID again
-  su_dyads[[site]] <- separate(data = su_dyads[[site]], col = dyad_id, into = c("sui", "suj"), sep = "_")
+  su_dyads[[site]] <- separate(data = su_dyads[[site]], col = dyad_id, into = c("sui", "suj"), sep = "--")
   su_dyads[[site]] <- su_dyads[[site]][!su_dyads[[site]]$sui == "", ]
   su_dyads[[site]] <- su_dyads[[site]][!su_dyads[[site]]$suj == "", ]
   su_dyads[[site]] <- su_dyads[[site]][!su_dyads[[site]]$sui == "NA", ]
@@ -915,28 +916,17 @@ for (site in names(residents)) {
   ## creating adjacency matrices that sum up all nominations from one SU to another.
   ## so, e.g., if one person names two people in another SU, will end up with a weight of 2.
   ## and if two people from the same household name two people in another SU, will end up with a weight of 4.
+  sn <- sort(res_su[[site]])
   adjmats <- list()
-  for (m in 1:length(tietypes)){
-    thistie <- select(net[net$tie == tietypes[[m]], ], ego = sui, alter = suj)
-    #su_s1 <- thistie[!duplicated(thistie), ]
+  for (m in 1:length(tietypes)) {
+    thistie <- dplyr::select(net[net$tie == tietypes[[m]], ], ego = sui, alter = suj)
 
-    adjmats[[m]] <- matrix(0,
-                           nrow = length(res_su[[site]]),
-                           ncol = length(res_su[[site]]),
-                           dimnames = list(sort(res_su[[site]]),
-                                           sort(res_su[[site]])))
+    tab <- table(factor(thistie$ego, levels = sn), factor(thistie$alter, levels = sn))
+    adjmats[[m]] <- matrix(as.integer(tab), nrow = length(sn), ncol = length(sn),
+                            dimnames = list(sn, sn))
 
-    names(adjmats)[m] <- paste0("e",tietypes[m])
+    names(adjmats)[m] <- paste0("e", tietypes[m])
 
-    for(i in 1:nrow(adjmats[[m]])){
-      for(j in 1:ncol(adjmats[[m]])){
-        if(nrow(thistie[thistie$ego == rownames(adjmats[[m]])[i] & thistie$alter == colnames(adjmats[[m]])[j],]) > 0){
-          adjmats[[m]][i,j] <- nrow(thistie[thistie$ego == rownames(adjmats[[m]])[i] & thistie$alter == colnames(adjmats[[m]])[j],])
-        } else {
-          adjmats[[m]][i,j] <- 0
-        }
-      }
-    }
     # Write out the adjacency matrices
     write.csv(adjmats[[m]], file.path(output_path, paste0(site, "-su-adjmat-", tietypes[m], ".csv")))
   }
@@ -974,42 +964,30 @@ for (site in names(residents)) {
     }
 
 
-    adjmats_respondent_collapse[[m]] <- matrix(0,
-                           nrow = length(res_su[[site]]),
-                           ncol = length(res_su[[site]]),
-                           dimnames = list(sort(res_su[[site]]),
-                                           sort(res_su[[site]])))
+    # collapse ties within respondent: one row per unique (ego, alter, person_ego)
+    thistie_unique <- dplyr::distinct(thistie, ego, alter, person_ego)
 
-    names(adjmats_respondent_collapse)[m] <- paste0("e",tietypes[m])
+    tab <- table(factor(thistie_unique$ego, levels = sn), factor(thistie_unique$alter, levels = sn))
+    adjmats_respondent_collapse[[m]] <- matrix(as.integer(tab), nrow = length(sn), ncol = length(sn),
+                                                dimnames = list(sn, sn))
 
-    for(i in 1:nrow(adjmats_respondent_collapse[[m]])){
-      for(j in 1:ncol(adjmats_respondent_collapse[[m]])){
-        if(nrow(thistie[thistie$ego == rownames(adjmats_respondent_collapse[[m]])[i] & thistie$alter == colnames(adjmats_respondent_collapse[[m]])[j],]) > 0){
-          # adjmats_respondent_collapse[[m]][i,j] <- nrow(thistie[thistie$ego == rownames(adjmats_respondent_collapse[[m]])[i] & thistie$alter == colnames(adjmats_respondent_collapse[[m]])[j],])
-          ## the above code calculates the number of i,j pairs.
-          ## This code instead counts the number of respondents who nominate someone in house j.
-          list_is_nominate_js <-
-            unique(thistie$person_ego[thistie$ego == rownames(adjmats_respondent_collapse[[m]])[i] & thistie$alter == colnames(adjmats_respondent_collapse[[m]])[j]])
-          adjmats_respondent_collapse[[m]][i,j] <- length(list_is_nominate_js)
-        } else {
-          adjmats_respondent_collapse[[m]][i,j] <- 0
-        }
-      }
-    }
+    names(adjmats_respondent_collapse)[m] <- paste0("e", tietypes[m])
+
     # Write out the adjacency matrices
     write.csv(adjmats_respondent_collapse[[m]], file.path(output_path, paste0(site, "-su-adjmat-respondent-collapse-", tietypes[m], ".csv")))
   }
 
   # if(!site %in% c("MY")) { ## MY has num_surv now.
 
-    su_nets[[site]] <- lapply(adjmats,
-                              function(x) {x <- graph_from_adjacency_matrix(x, mode = "directed", weighted = TRUE)}
-                              %>% set_vertex_attr("sampled", value = V(x)$name %in% sampled_su[[site]])
-                              %>% set_vertex_attr("num_surv", value = sharing_unit[[site]]$num_surv[match(V(x)$name, sharing_unit[[site]]$su_id)])
-                              %>% set_vertex_attr("num_surv_male_q", value = sharing_unit[[site]]$num_surv_male_q[match(V(x)$name, sharing_unit[[site]]$su_id)])
-                              %>% set_vertex_attr("num_surv_female_q", value = sharing_unit[[site]]$num_surv_female_q[match(V(x)$name, sharing_unit[[site]]$su_id)])
-                              %>% set_vertex_attr("su_wealth", value = sharing_unit[[site]]$su_wealth[match(V(x)$name, sharing_unit[[site]]$su_id)])
-                              %>% set_vertex_attr("susize", value = sharing_unit[[site]]$su_size[match(V(x)$name, sharing_unit[[site]]$su_id)])
+    su_nets[[site]] <-
+      lapply(adjmats,
+            function(x) {x <- graph_from_adjacency_matrix(x, mode = "directed", weighted = TRUE)}
+            %>% set_vertex_attr("sampled", value = V(x)$name %in% sampled_su[[site]])
+            %>% set_vertex_attr("num_surv", value = sharing_unit[[site]]$num_surv[match(V(x)$name, sharing_unit[[site]]$su_id)])
+            %>% set_vertex_attr("num_surv_male_q", value = sharing_unit[[site]]$num_surv_male_q[match(V(x)$name, sharing_unit[[site]]$su_id)])
+            %>% set_vertex_attr("num_surv_female_q", value = sharing_unit[[site]]$num_surv_female_q[match(V(x)$name, sharing_unit[[site]]$su_id)])
+            %>% set_vertex_attr("su_wealth", value = sharing_unit[[site]]$su_wealth[match(V(x)$name, sharing_unit[[site]]$su_id)])
+            %>% set_vertex_attr("susize", value = sharing_unit[[site]]$su_size[match(V(x)$name, sharing_unit[[site]]$su_id)])
     )
 
     su_nets_recipient_collapse[[site]] <-

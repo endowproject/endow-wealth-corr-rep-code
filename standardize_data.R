@@ -246,12 +246,12 @@ for(site in names(people_observations)) {
 ## PT implies there in status measure, but all 0s; going off of occupation
 
 # people_observations$BY$external_status <- ifelse(people_observations$BY$statuswealth_bayakadance == "owns dance" | people_observations$BY$status_farmer != 0, 1, 0)
-# 
+#
 # people_observations$MK$external_status <- ifelse(people_observations$MK$org == 1 | people_observations$MK$govwork == 1 | people_observations$MK$churchwork == 1, 1, 0) ## directed not to count militia
-# 
+#
 # people_observations$PE$external_status <- people_observations$PE$statusofalter
 # people_observations$PE$external_status[people_observations$PE$external_status == "na"] <- NA
-# 
+#
 # people_observations$PT$external_status <- ifelse(people_observations$PT$occupation %in% c("city councilor", "civil servant","doctor","navy","ngo","parkranger","policeman"), 1, 0)
 
 ## incorporating external status measures in with status variable; in all cases non-overlapping
@@ -260,6 +260,7 @@ for(site in names(people_observations)) {
 # people_observations$BY$status <- ifelse(people_observations$BY$status == 1 | people_observations$BY$external_status == 1, 1, 0)
 # people_observations$PE$status <- ifelse(people_observations$PE$status == 1 | people_observations$PE$external_status == 1, 1, 0)
 # people_observations$PT$status <- ifelse(people_observations$PT$status == 1 | people_observations$PT$external_status == 1, 1, 0)
+# people_observations$PQ$status <- ifelse(people_observations$PQ$status == 1 | people_observations$PQ$external_status == 1, 1, 0)
 
 
 
@@ -274,7 +275,7 @@ for(site in names(people_observations)) {
 # people_observations$BM$external_wealth <- ifelse(people_observations$BM$external_wealth >= 0.5, 1, 0) # house material: 0 = natural, 0.5 = mixed, 1 = store bought; Shane says dichotomy should be natural = 0, mixed/store = 1
 # people_observations$BY$external_wealth <- ifelse(people_observations$BY$wealth_farmer == 1 | people_observations$BY$statuswealth_bayakadance == "owns dance", 1, 0)
 # people_observations$BY$external_wealth[people_observations$BY$wealth_farmer != 1 | people_observations$BY$statuswealth_bayakadance != "owns dance"] <- 0 ## this line shouldn't really be necessary and only doesn't create issues because the variables do not overlap; trying to also add the 0s, which do not overlap
-# 
+#
 # people_observations$CP$external_wealth <- people_observations$CP$car ## using car! homeowner seems quite pervasive
 # people_observations$FF$external_wealth <- people_observations$FF$car ## in collection-entry-metadata, says to use car if need to use one; has brickhouse, cattle (count), smallstock, and car
 # people_observations$FF$external_wealth <- dplyr::recode(people_observations$FF$external_wealth,
@@ -300,14 +301,14 @@ for(site in names(people_observations)) {
 # people_observations$MA$external_livestock <- people_observations$MA$external_wealth
 # people_observations$MA$external_wealth <- ifelse(people_observations$MA$external_livestock >= 200, 1, 0) ## ARBITRARY CUTOFF FOR NOW!
 # people_observations$MC$external_wealth <- ifelse(people_observations$MC$external_wealth >= 0.5, 1, 0) ## per Curtis, reflect the average of responses when multiple people reported; recoding >=0.5 to 1
-# 
+#
 # people_observations$MY$external_wealth <- ifelse(people_observations$MY$other_status > 1, 1, 0) ## other_status is actually a wealth measure: 0 = equivalent to wealth of village, 1 = a little wealthier, 2 = moderately wealthier, 3 = much wealthier
 # people_observations$PE$external_wealth <- dplyr::recode(people_observations$PE$wealthofalter,
 #   "x" = "0",
 #   "y" = "1",
 #   "na" = NA_character_
 # )
-# 
+#
 # people_observations$PT$external_wealth <- dplyr::recode(people_observations$PT$external_wealth,
 #   "medium" = "0",
 #   "high" = "1"
@@ -333,7 +334,7 @@ for (site in names(people_observations)) {
 
 # people_observations$LB$head <- as.numeric(people_observations$LB$personid %in% setdiff(unique(c(sharing_unit$LB$malehead, sharing_unit$LB$femalehead)), NA))
 # people_observations$YN$head <- as.numeric(people_observations$YN$personid %in% setdiff(unique(c(sharing_unit$YN$malehead, sharing_unit$YN$femalehead)), NA))
-# 
+#
 # people_observations$TZ$head[people_observations$TZ$head == "in 2023 census but family not interviewed"] <- NA
 
 for (site in setdiff(names(people_observations), c("AV", "DJ"))){
@@ -383,7 +384,7 @@ for (site in setdiff(names(people_observations), c("AV", "DJ"))){
 #   "12-year education (secondary school 2)" = "12",
 #   "13-year education (higher education)" = "13"
 # )
-# 
+#
 # people_observations$PS$years_education <- dplyr::recode(people_observations$PS$years_education,
 #   "none" = "0"
 # )
@@ -395,7 +396,7 @@ for (site in setdiff(names(people_observations), c("AV", "DJ"))){
 # )
 # people_observations$MC$years_education[people_observations$MC$years_education == 48] <- 18 # recoding one crazy outlier to next highest!
 # people_observations$YN$years_education <- dplyr::recode(people_observations$YN$years_education, "kg" = "0.5")
-# 
+#
 # for (site in c("BY", "MG", "VT","YN")) { ## these all have character strings in the full people_obs
 #   people_observations[[site]]$years_education <- as.numeric(people_observations[[site]]$years_education)
 # }
@@ -423,17 +424,17 @@ for (site in setdiff(names(people_observations), c("AV", "DJ"))){
 # AV and DJ have ranges with minimum of 2 and max of 10 or 12, median of 5
 # people_observations$AV$other_noetic_true <- ifelse(people_observations$AV$other_noetic > 5, TRUE, FALSE)
 # people_observations$DJ$other_noetic_true <- ifelse(people_observations$DJ$other_noetic > 5, TRUE, FALSE)
-# 
+#
 # people_observations$BD$other_noetic <- ordered(people_observations$BD$knowquran_r,
 #   levels = c("4 none", "3 basic", "2 good", "1 very good")
 # )# Mary says either good/very good or just very good (latter being on 24 individuals; former being ~150) in 17 Sept 2023 email; fine with either
 # people_observations$BD$other_noetic_true <- people_observations$BD$other_noetic > "3 basic"
-# 
+#
 # people_observations$BY$other_noetic <- ordered(people_observations$BY$other_noetic,
 #   levels = c("none", "intermediate", "full")
 # )  # intermediate == understands but doesn't speak Lingala; if dichotomize put to full == 1, else == 0
 # people_observations$BY$other_noetic_true <- people_observations$BY$other_noetic > "intermediate"
-# 
+#
 # people_observations$CP$other_noetic <- as.numeric(people_observations$CP$other_noetic)
 # people_observations$CR$other_noetic <- dplyr::recode(people_observations$CR$other_noetic,
 #   `2` = 1L
@@ -442,14 +443,14 @@ for (site in setdiff(names(people_observations), c("AV", "DJ"))){
 #   levels = c("none", "little", "conversational")
 # ) ## if dichotomize presumably conversational == 1 else == 0
 # people_observations$FF$other_noetic_true <- people_observations$FF$other_noetic > "little"
-# 
+#
 # people_observations$FJ$other_noetic <- ordered(people_observations$FJ$other_noetic,
 #   levels = c("0", "1", "2")
 # )
 # # FJ: English speaking; 0 = not at all, 1 = somewhat, 2 = very well; 12 August 2025 decide with Matt on 0/1 versus 2
 # people_observations$FJ$other_noetic_true <- people_observations$FJ$other_noetic > "1"
-# 
-# # IH, PC, WH, WL Number of languages spoken, presumably, so 2 == 1 else 0
+#
+# # IH, PC, WH, WL, PQ Number of languages spoken, presumably, so 2 == 1 else 0
 # people_observations$IH$other_noetic <- people_observations$IH$languages
 # people_observations$IH$other_noetic_true <- ifelse(people_observations$IH$languages > 1, TRUE, FALSE)
 # people_observations$PC$other_noetic <- people_observations$PC$languages
@@ -458,17 +459,18 @@ for (site in setdiff(names(people_observations), c("AV", "DJ"))){
 # people_observations$WH$other_noetic_true <- ifelse(people_observations$WH$languages > 1, TRUE, FALSE)
 # people_observations$WL$other_noetic <- people_observations$WL$languages
 # people_observations$WL$other_noetic_true <- ifelse(people_observations$WL$languages > 1, TRUE, FALSE)
-# 
+# people_observations$PQ$other_noetic_true <- ifelse(people_observations$PQ$other_noetic > 1, TRUE, FALSE)
+#
 # people_observations$KA$other_noetic <- ordered(people_observations$KA$bhsind, levels = c(0, 1, 2),
 #   labels = c("none", "a little", "fluent")
 # ) ## 0 = none, 1 = a little, 2 = fluent; Geoff says to use fluent == 1 for binary
 # people_observations$KA$other_noetic_true <- ifelse(people_observations$KA$bhsind == 2, TRUE, FALSE)
-# 
+#
 # people_observations$KM$other_noetic <- ordered(people_observations$KM$other_noetic,
 #   levels = c("inexperienced", "average", "above average", "master")
 # ) ## experience in subsistence; Drew says he would go with inexperienced/average == 0 and above average/master == 1.
 # people_observations$KM$other_noetic_true <- people_observations$KM$other_noetic > "average"
-# 
+#
 # people_observations$KO$other_noetic <- ordered(people_observations$KO$other_noetic,
 #   levels = c("none", "alittle", "good", "verygood")
 # ) ## if dichotomize, presumably good/very good or just very good
@@ -487,60 +489,60 @@ for (site in setdiff(names(people_observations), c("AV", "DJ"))){
 # people_observations$MK <- people_observations$MK %>%
 #   dplyr::mutate(other_noetic_count = rowSums(across(c(othernoetic1, othernoetic2, othernoetic3, othernoetic4, othernoetic5, othernoetic6, othernoetic7)), na.rm = TRUE))
 # people_observations$MK$other_noetic <- ifelse(people_observations$MK$othernoetic2 == 1 | people_observations$MK$othernoetic4 == 1, 1, 0)
-# 
+#
 # people_observations$MN$other_noetic <- ordered(people_observations$MN$other_noetic,
 #   levels = c("0", "0.5", "1")
 # )
 # people_observations$MN$other_noetic_true <- people_observations$MN$other_noetic > "0.5"
-# 
+#
 # people_observations$MY$other_noetic <- ordered(people_observations$MY$other_noetic,
 #   levels = c("0", "1", "2", "3")
 # )
 # # Measure of spanish proficiency (Maya is everyone's first language)
 # # 0=none,  1=a little (for adults based on interview; assigned to kids in grade 1),  2=basic conversational (for adults based on interview; assigned to kids in grades 2-3, 3=fluent (for adults based on interview; assigned to kids in grades 4+); blank=children 6 and younger who haven't yet gone to school; the older ones may speak some Spanish
 # people_observations$MY$other_noetic_true <- people_observations$MY$other_noetic > "2"
-# 
+#
 # people_observations$NI$other_noetic <- cut(people_observations$NI$other_noetic,
 #   breaks = c(0, 1, 33, 66, 100),
 #   include.lowest = TRUE,
 #   labels = c("none", "alittle", "some", "alot")
 # ) # Jeremy says if need to binarize, do 70+, which accords to this top category
 # people_observations$NI$other_noetic_true <- people_observations$NI$other_noetic == "alot"
-# 
+#
 # people_observations$NP$other_noetic <- ordered(people_observations$NP$other_noetic,
 #   levels = c("0", "1", "2")
 # ) ## 0 = low, 1 = partial, 2 = good; if need to dichotomize, do 0/1 vs 2
 # people_observations$NP$other_noetic_true <- people_observations$NP$other_noetic > "1"
-# 
+#
 # people_observations$PT$other_noetic <- ifelse(people_observations$PT$other_noetic > 1, 1, 0) ## per email of 16 Oct, 1 = fix boats, 2 = handicrafts, 3 = build canoes
 # people_observations$TI$other_noetic <- ordered(people_observations$TI$other_noetic,
 #   levels = c("0", "1", "2")
 # ) ## per email on 19 Sept 2023, if need to dichotomize, do 0 verus 1/2.
 # people_observations$TI$other_noetic_true <- people_observations$TI$other_noetic > "0"
-# 
+#
 # people_observations$TM$other_noetic <- ordered(people_observations$TM$other_noetic,
 #   levels = c("none", "moderate", "full")
 # ) ## Spanish fluency
 # people_observations$TM$other_noetic_true <- people_observations$TM$other_noetic > "moderate"
-# 
+#
 # people_observations$TP$other_noetic <- ordered(people_observations$TP$other_noetic,
 #   levels = c("0", "1", "2", "3")
 # )## 0 = speaks neither, 1 = only Dutch, 2 = only Sranan Tango, 3 = both
 # people_observations$TP$other_noetic_true <- people_observations$TP$other_noetic == "3"
-# 
+#
 # people_observations$TS$other_noetic <- ordered(people_observations$TS$other_noetic,
 #   levels = c("0", "0.5", "1")
 # )
 # people_observations$TS$other_noetic_true <- people_observations$TS$other_noetic > "0.5"
-# 
+#
 # people_observations$TZ$other_noetic <- ordered(people_observations$TZ$other_noetic,
 #   levels = c("0", "1", "2")
 # )
 # people_observations$TZ$other_noetic <- people_observations$TZ$other_noetic > "1"
-# 
+#
 # people_observations$YI$other_noetic <- people_observations$YI$mandarin_level ## we have literacy_level, mandarin_level, and skills_yn; collection-entry-metadata implies mandarin_level probably best
 # people_observations$YI$other_noetic_true <- ifelse(people_observations$YI$mandarin_level == 3, TRUE, FALSE)
-# 
+#
 # create binary other_noetic_true
 for (site in intersect(c("AH", "AR", "BM", "CP", "CR", "EK", "HE", "KS", "KT", "MC", "MG", "MK", "PE", "PS", "PT", "RA", "SH", "SN", "TN", "TZ", "UP", "EG", "EX", "SI", "SM"), names(people_observations))) {
   people_observations[[site]]$other_noetic_true <- as.logical(people_observations[[site]]$other_noetic)
@@ -551,7 +553,7 @@ for (site in intersect(c("AH", "AR", "BM", "CP", "CR", "EK", "HE", "KS", "KT", "
 
 ## WORK ABILITY
 
-## missing: IH, AV, DJ
+## missing: IH, AV, DJ, PQ
 ## BD, PT, RA have 4 level scale
 ## FF has "child" for one...
 ## HE -- 1=full and 3=none, confirmed with Gianluca in 18 Sept 2023 email
@@ -670,7 +672,7 @@ for (site in intersect(c("AH", "AR", "BM", "CP", "CR", "EK", "HE", "KS", "KT", "
 #   "other" = NA_character_
 # )
 
-for (site in names(people_observations)[!names(people_observations) %in% c("BD", "PT", "RA", "SH", "IH", "AV", "DJ")]) {
+for (site in names(people_observations)[!names(people_observations) %in% c("BD", "PT", "RA", "SH", "IH", "AV", "DJ", "PQ")]) {
   people_observations[[site]]$work_ability <- ordered(people_observations[[site]]$work_ability,
     levels = c("none", "moderate", "full")
   )
@@ -721,7 +723,7 @@ food_sec_qs <- c("smaller_meals", "fewer_meals","no_food", "sleep_hungry","witho
 #   "4 don't have enough few times a month" = 2L,
 #   "5 never or almost never have enough" = 3L
 # )
-# 
+#
 # sharing_unit$BD[food_sec_qs[c(2, 3, 5)]] <- lapply(
 #   sharing_unit$BD[food_sec_qs[c(2, 3, 5)]],
 #   function(x) {
@@ -733,7 +735,7 @@ food_sec_qs <- c("smaller_meals", "fewer_meals","no_food", "sleep_hungry","witho
 #     )
 #   }
 # )
-# 
+#
 # ## Recoding MC
 # ## I ASKED HOW MANY DAYS EACH WEEK THEY EXPERIENCED THE THING, IF NOT THEN HOW MANY TIMES A MONTH.
 # sharing_unit$MC[food_sec_qs] <- lapply(
@@ -754,7 +756,7 @@ food_sec_qs <- c("smaller_meals", "fewer_meals","no_food", "sleep_hungry","witho
 #     )
 #   }
 # )
-# 
+#
 # ## Recoding MG
 # sharing_unit$MG[food_sec_qs] <- lapply(
 #   sharing_unit$MG[food_sec_qs],
@@ -767,9 +769,9 @@ food_sec_qs <- c("smaller_meals", "fewer_meals","no_food", "sleep_hungry","witho
 #     )
 #   }
 # )
-# 
-# ## Recoding KM, NI, PE, NP, UP
-# for (site in c("KM", "NI", "PE", "NP", "UP")) {
+#
+# ## Recoding KM, NI, PE, NP, UP, PQ
+# for (site in c("KM", "NI", "PE", "NP", "UP", "PQ")) {
 #   sharing_unit[[site]][food_sec_qs] <- lapply(
 #     sharing_unit[[site]][food_sec_qs],
 #     function(x) {
@@ -782,7 +784,7 @@ food_sec_qs <- c("smaller_meals", "fewer_meals","no_food", "sleep_hungry","witho
 #     }
 #   )
 # }
-# 
+#
 # ## these sites used a 1:4 scale, not a 0:3 scale
 # for (site in c("EK", "TS", "MN")) {
 #   sharing_unit[[site]][food_sec_qs] <- lapply(
@@ -790,8 +792,8 @@ food_sec_qs <- c("smaller_meals", "fewer_meals","no_food", "sleep_hungry","witho
 #     function(x) x - 1
 #   )
 # }
-# 
-# 
+#
+#
 # ## VT has values that are the # of times in the past month; Siobhan suggested this recoding
 # sharing_unit$VT[food_sec_qs] <- lapply(
 #   sharing_unit$VT[food_sec_qs],
@@ -835,7 +837,7 @@ sharing_unit <- lapply(sharing_unit, function(x){
 
 ## MALEHHFATHEREDU / FEMALEHHFATHEREDU / MALEHHMOTHEREDU / FEMALEHHMOTHEREDU
 
-# missing: AV, DJ, HI, IH, KO, LB, MA, MG, PC, PS, WH, WL, YN
+# missing: AV, DJ, HI, IH, KO, LB, MA, MG, PC, PS, PQ, WH, WL, YN
 # very partial responses: KT, RA (all 0s)
 
 parent_edu_qs <- c("malehhfatheredu", "malehhmotheredu", "femalehhfatheredu", "femalehhmotheredu")
@@ -882,7 +884,7 @@ parent_edu_qs <- c("malehhfatheredu", "malehhmotheredu", "femalehhfatheredu", "f
 ## Parental other noetic
 ## presumably following the main other noetic variable, very many of these are not binary; if need to dichotomize, will need to do a bit more
 ## numeric: FF (0,1,2), FJ (0,1,2), KA (0,1,2), MK (2,3,4,5,6), MN (0,0.5,1), MY (0,1,2,3), NI (0,30,40,50,60,70,75,80,85,100), PT (0,1,2,3), TI (1,2), TP (0,2,3), TM (0, 0.5, 1), VT (0,1,2), YI (1,2,3) [these based on malehhfathernoeticother, presume hold for others]
-## missing: HI, IH, PC, PE, WH, WL, NP, UP, AV, DJ
+## missing: HI, IH, PC, PE, WH, WL, NP, UP, AV, DJ, PQ
 ## BY has two: _lingala and _dance
 ## EK has two: malehhfathernoeticlanguage and malehhfathernoeticecolo
 ## HE has femalehhfatherenglish
@@ -910,7 +912,7 @@ parent_other_noetic_qs <- c("malehhfathernoeticother", "malehhmothernoeticother"
 #  sharing_unit[[site]]$malehhmotherothernoetic <- NA
 #  sharing_unit[[site]]$femalehhmotherothernoetic <- NA
 # }
-# 
+#
 # sharing_unit$BD[parent_other_noetic_qs] <- lapply(
 #   sharing_unit$BD[parent_other_noetic_qs],
 #   function(x) {

@@ -42,7 +42,7 @@ survey <- read.csv(file.path(path, "survey_data.csv"))
 
 ## select appropriate geospatial values based on year, where relevant
 geo_joined <- geospatial %>%
-  left_join(
+  right_join(
     country_data %>% dplyr::select(SiteCode, Fieldwork.year),
     by = c("site_name" = "SiteCode")
   )

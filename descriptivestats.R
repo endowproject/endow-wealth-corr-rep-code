@@ -102,7 +102,7 @@ su_summary <- su_summary %>%
     scd %>% dplyr::select(SiteCode, Name, Country, Fieldwork.year),
     by = join_by("site" == "SiteCode")
   ) %>%
-  select(-c(missing_wealth, missing_networks)) %>%
+  dplyr::select(-c(missing_wealth, missing_networks)) %>%
   relocate(Country, Fieldwork.year, .after = site) %>%
   relocate(Name, .after = Fieldwork.year) %>%
   arrange(site)

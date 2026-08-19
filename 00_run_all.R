@@ -49,14 +49,7 @@ RUN_DATASET_GENERATION <- TRUE  # Part B: build analysis-ready datasets
 RUN_MODULARITY         <- TRUE  # Part C: generate wealth modularity (takes ~30 min with faux data)
 RUN_MULTILEVEL         <- TRUE  # Part D: run multilevel regression (takes ~7 hours with faux data!)
 RUN_FIGURES            <- TRUE  # Part E: generate all figures and tables
-SITES_TO_DROP <- c(
-  "AP", # poor coverage of sharing unit wealth data
-  "BZ", # not fully processed through, and doesn't want to be included
-  #"MC", poor coverage of sharing unit wealth data (66%)
-  "KS", # too many outstanding questions on wealth valuations
-  "PS", # poor coverage of sharing units (53%)
-  "TP" # researcher hasn't engaged and don't have sign-off on paper
-)
+SITES_TO_DROP <- c("XX", "ZZ") # no sites should be dropped from analyses; these are dummy codes
 
 
 # ==============================================================================
@@ -273,6 +266,7 @@ if (RUN_DATASET_GENERATION) {
     "Figures/WealthDistributions/ByVariable/WealthPerAdult_Absolute",
     "Figures/WealthDistributions/ByVariable/WealthPerCapita_Absolute",
     "Figures/paper-1st-draft/multilevel",
+    "Figures/paper/wealth_homophily",
     "Tables/DescriptiveStats"
   )
   for (d in output_dirs) {

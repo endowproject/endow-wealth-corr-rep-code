@@ -54,10 +54,10 @@ remove_layer_self_loops <- function(layer) {
 ## The edge weights for the network prompts represent the number of nominations from SU_i to SU_j. So, if there were multiple reporters in the SU, this could obviously be more than 1.
 
 
-load("DerivedData/su_nets.rdata")
-load("DerivedData/su_meta.rdata")
-load("DerivedData/su_alters.rdata")
-load("DerivedData/su_nets_recipient_collapse.rdata")
+load(file.path(EndowDerivedData, "su_nets.rdata"))
+load(file.path(EndowDerivedData, "su_meta.rdata"))
+load(file.path(EndowDerivedData, "su_alters.rdata"))
+load(file.path(EndowDerivedData, "su_nets_recipient_collapse.rdata"))
 
 sites <-
   names(su_nets)
@@ -981,7 +981,7 @@ primary_connectedkin_sum <- lapply(sites, function(site) {
   kin_links <- intersection(kin_bidirected, connection_graph, byname = TRUE)
 
   #remove isolates : it doesn't make sense to have them here even though they exist in sum because these are structural 0s here
-  kin_links <- delete_vertices(kin_links, V(kin_links)[degree(kin_links, mode = "all") == 0])
+  #kin_links <- delete_vertices(kin_links, V(kin_links)[degree(kin_links, mode = "all") == 0])
 
   # remove self loops
   #kin_links <- delete_edges(kin_links, E(kin_links)[which_loop(kin_links)])
@@ -1010,7 +1010,7 @@ secondary_connectedkin_sum <- lapply(sites, function(site) {
   # intersect to get connected kin
   kin_links <- intersection(kin_bidirected, connection_graph, byname = TRUE)
   #remove isolates : it doesn't make sense to have them here even though they exist in sum because these are structural 0s here
-  kin_links <- delete_vertices(kin_links, V(kin_links)[degree(kin_links, mode = "all") == 0])
+  #kin_links <- delete_vertices(kin_links, V(kin_links)[degree(kin_links, mode = "all") == 0])
   # remove self loops
   #kin_links <- delete_edges(kin_links, E(kin_links)[which_loop(kin_links)])
 
@@ -1044,7 +1044,7 @@ non_primary_connectedkin_sum <- lapply(sites, function(site) {
   # remove self loops
   #nonkin_links <- delete_edges(nonkin_links, E(nonkin_links)[which_loop(nonkin_links)])
   #remove isolates : it doesn't make sense to have them here even though they exist in sum because these are structural 0s here
-  nonkin_links <- delete_vertices(nonkin_links, V(nonkin_links)[degree(nonkin_links, mode = "all") == 0])
+  #nonkin_links <- delete_vertices(nonkin_links, V(nonkin_links)[degree(nonkin_links, mode = "all") == 0])
 
   # node attributes
   V(nonkin_links)$su_wealth <- V(connection_graph)$su_wealth[V(nonkin_links)$name]
@@ -1071,7 +1071,7 @@ non_secondary_connectedkin_sum <- lapply(sites, function(site) {
   # remove self loops
   #nonkin_links <- delete_edges(nonkin_links, E(nonkin_links)[which_loop(nonkin_links)])
   #remove isolates : it doesn't make sense to have them here even though they exist in sum because these are structural 0s here
-  nonkin_links <- delete_vertices(nonkin_links, V(nonkin_links)[degree(nonkin_links, mode = "all") == 0])
+  #nonkin_links <- delete_vertices(nonkin_links, V(nonkin_links)[degree(nonkin_links, mode = "all") == 0])
 
   # node attributes
   V(nonkin_links)$su_wealth <- V(connection_graph)$su_wealth[V(nonkin_links)$name]

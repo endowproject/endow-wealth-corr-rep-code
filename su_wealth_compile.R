@@ -8,9 +8,6 @@
 # Fully unobserved SUs are left as NAs, and not included in imputation.
 # We also "noise up" the wealth calculations by randomly adjusting each
 # item count/valuation, and see how this affects the resulting wealth distributions.
-# Most scripts are quick to run; EK is the slowest at ~15 minutes (because of imputation).
-# There are notes with the calls below and in the site scripts to review.
-# A few scripts pull in files from the site repos, so won't run for those without access.
 
 require("dplyr")
 require("tidyr")
@@ -338,205 +335,108 @@ source("su-wealth-calculations/CalculateSUwealth_EG.R")
 source("su-wealth-calculations/CalculateSUwealth_EX.R")
 source("su-wealth-calculations/CalculateSUwealth_SI.R")
 source("su-wealth-calculations/CalculateSUwealth_SM.R")
-
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_AH.R")
-# ## 6 fully unobserved SUs, not imputed; a few items still needing valuations
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_AR.R")
-# ## One very wealthy household, so huuuuge Gini!
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_AV.R")
-# ## There are individual values for basically all items, which vary between SUs
-# ## This results in a total_wealth variable which we could use,
-# ##  instead of one derived from the average value of items included in the PossCost file
-# ## Has cash, bank_account, mobile_money, debt - not including these for now
-# ## Quite a number of SUs with 0 wealth (beyond the baseline)
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_BD.R")
-# ## Unusual structure!
-# ## Small imputation
-# ## noise trials don't include the house structure variables!
-# 
+#
 # ## BF: currently lacking PossCost file (and collection-entry file with baseline)
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_BM.R")
-# ## 1 SU with fully missing info, left as NA
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_BY.R")
-# ## 2 SUs with fully missing info, left as NA
-# 
-# ## BZ: PossCost file not fully resolved (data not through checks, etc)
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_CP.R")
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_CR.R")
-# ## some 20+ SUs with fully missing info, left as NA
-# ## some imputation, and site-specific code for some semi-nested units
-# 
-# ## DA: don't have full data submitted yet (but do have SU and PossCost, so could try)
-# 
+#
+# ## DA: don't have full data submitted yet
+#
 # source("su-wealth-calculations/CalculateSUwealth_DJ.R")
-# ## There are individual values for basically all items, which vary between SUs
-# ## This results in a total_wealth variable which we could use,
-# ## instead of one derived from the average value of items included in the PossCost file
-# ## Has cash, bank_account, mobile_money, debt - not including these for now
-# ## Quite a number of SUs with 0 wealth (beyond the baseline)
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_EK.R")
-# ## imputation takes a *long time*! Still has some NAs which are then just forced to 0s!
-# ## 4 SUs with fully missing info, turned to NA
-# ## land not valued, as apparently usufruct and not-monetizable
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_FF.R")
-# ## no baseline (all enumerated), one missing sofa imputed to 0
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_FJ.R")
-# ## no baseline, has info on income and detailed breakdown and pricing of house construction
-# ## small missingness, imputed with mice, takes time to impute
-# ## 5 SUs with fully missing info, left as NA
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_HE.R")
-# ## has some information on crop yields and earnings and income, excluding these!
-# ## one SU with missing data, left as NA
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_HI.R")
-# ## pulls in file from endow-HI repo, so won't work if don't have access to this!
-# ## Includes some imputation of cows, drops goats and rifles
-# ## Unclear if baseline meant to include livestock
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_IH.R")
-# ## has "money" and "debts" (also monthly income); currently include neither
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_KA.R")
-# ## no missingness
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_KM.R")
-# ## 26 SUs with fully missing info, left as NA
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_KO.R")
-# ## no missingness
-# ## values quite different from anirudh's earlier file!
-# ## seems to be because of farmed land not being included earlier?
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_KS.R")
-# ## comma versus period issue in Poss_Cost
-# ## missing input from ethnog so don't have baseline, not sure on currency
-# ## missing valuations for a number of potentially important items,
-# ## including land, house, and some livestock
-# ## has income, debts, savings - not currently including debts or savings
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_KT.R")
-# ## no missingness *of wealth items*
-# ## has monthly income
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_LB.R")
-# ## currently missing baseline
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_MA.R")
-# ## no missingness
-# ## has savings and debts, but we do not include these
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_MC.R")
-# ## 78 SUs with fully missing information
-# ## Beyond that, very exhaustive list (and baseline of 0); Curtis says other cases of NAs can be treated as 0s
-# ## A few unpriced items, but small
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_MG.R")
-# ## 4 SUs with fully missing info, left as NA
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_MK.R")
-# ##  currently owned land is NOT given a value
-# ## Bram says that "almost never is it bought or sold.  There isn’t much of a land market (yet)."
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_MN.R")
-# ## 2 SUs with fully missing info, left as NA
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_MY.R")
-# ## currently missing baseline, and resulting values stated by Kramer as NOT reflecting wealth distrib! need to revisit.
-# ## 3 SUs with fully missing info, left as NA
-# ## has income variables
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_NI.R")
-# ## no missingness
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_NP.R")
-# ## pulls in file from endow-NP repo, so won't work if don't have access to this!
-# ## currently draws from Ivan's own calculations, which are in his endow-NP repo
-# ## noise trials are done differently (off of calculated amounts, rather than with item values)
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_PC.R")
-# ## 2 SUs with fully missing info, left as NA
-# ## has "money" and "debts" (also monthly income); currently include neither
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_PE.R")
-# ## Check with Monique/Dan because of supra unit
-# ## no missingness
-# ## also has average annual amount loaned out, borrowed, and received through remittances
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_PS.R")
-# ## no fully missing SUs
-# ## reasonable amount of imputation, some educated guesses and other changes
-# ## some cases of ranges given -- currently replace with mean of range
-# 
+#
+# source("su-wealth-calculations/CalculateSUwealth_PQ.R")
+#
 # source("su-wealth-calculations/CalculateSUwealth_PT.R")
-# ## updates to PossCost hadn't been incorporated in
-# ## one SU with almost fully missing info, left as NA, BUT old email suggests they have data and just need to share it!
-# ## A few SUs with VERY different wealth values from Anirudh's earlier calculations; unclear why!
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_RA.R")
-# ## currently missing baseline!
-# ## no missingness
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_SH.R")
-# ## 2 SUs with fully missing info, left as NAs; others complete
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_SN.R")
-# ## no missingness
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_TI.R")
-# ## 4 SUs with fully missing info, left as NAs
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_TM.R")
-# ## 3 SUs with fully missing info, left as NAs
-# ## not sure on currency
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_TN.R")
-# ## 3 SUs with fully missing info, left as NAs
-# ## substantially revised/simplified code; results differ slightly; had previously missed some variables but that doesn't fully account
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_TP.R")
-# ## no missingness
-# ## had previously been using variable calculated by ethnog, with included income and "total city trips"
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_TS.R")
-# ## 15 SUs with fully missing info, left as NA
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_TZ.R")
-# ## no missingness (save a few unsampled SUs), but one SU with 0s across the board
-# ## note no records on house structure itself
-# ## says no baseline, fully enumerated
-# ## not sure on currency, think Moroccan dirhams!
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_UP.R")
-# ## 3 unsampled SUs
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_VT.R")
-# ## currently missing baseline
-# ## some entries seem like they may be misentries -- 42 umbrellas? 20 toilets?
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_WH.R")
-# ## has "money" and "debts" (also monthly income); currently include neither
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_WL.R")
-# ## has "money" and "debts" (also monthly income); currently include neither
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_YI.R")
-# ## one SU with fully missing data
-# 
+#
 # source("su-wealth-calculations/CalculateSUwealth_YN.R")
-# ## currently missing baseline
-# ## one SU missing car and animals
 
 saveRDS(su_wealth_list, paste0(wealth_dir, "su_wealth_list.rds"))
 saveRDS(noised_list, paste0(wealth_dir, "noised_list.rds"))
