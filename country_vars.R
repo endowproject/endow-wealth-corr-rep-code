@@ -594,7 +594,7 @@ wdi_dat <- wbwdi::wdi_get(
 )
 
 wdi_dat <- wdi_dat |>
-  select(entity_id, year, indicator_id, value) |>
+  dplyr::select(entity_id, year, indicator_id, value) |>
   pivot_wider(names_from = indicator_id, values_from = value)
 
 country_data <- merge_variables(

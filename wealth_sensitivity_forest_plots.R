@@ -133,7 +133,7 @@ site_correlation <- function(s, wealth_df, ed_list, frank_type, y_type) {
   el  <- as_edgelist(g)
   edg <- data.frame(su_id    = el[, 1],
                     alter_id = el[, 2],
-                    weight   = as.numeric(E(g)$weight),
+                    weight   = as.numeric(igraph::edge_attr(g, "weight")),
                     stringsAsFactors = FALSE)
 
   edg <- merge(edg, df[, c("su_id", "rank_wpc", "rank_wealth")], by = "su_id")

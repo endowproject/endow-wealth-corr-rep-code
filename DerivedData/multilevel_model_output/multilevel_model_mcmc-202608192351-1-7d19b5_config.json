@@ -1,0 +1,66 @@
+
+{
+  "stan_major_version" : "2",
+  "stan_minor_version" : "39",
+  "stan_patch_version" : "0",
+  "model_name" : "multilevel_model_mcmc_model",
+  "start_datetime" : "2026-08-19 22:51:04 UTC",
+  "method" : {
+    "value" : "sample",
+    "sample" : {
+      "num_samples" : 1000,
+      "num_warmup" : 1000,
+      "save_warmup" : false,
+      "thin" : 1,
+      "adapt" : {
+        "engaged" : true,
+        "gamma" : 0.05,
+        "delta" : 0.95,
+        "kappa" : 0.75,
+        "t0" : 10,
+        "init_buffer" : 75,
+        "term_buffer" : 50,
+        "window" : 25,
+        "save_metric" : true
+      },
+      "algorithm" : {
+        "value" : "hmc",
+        "hmc" : {
+          "engine" : {
+            "value" : "nuts",
+            "nuts" : {
+              "max_depth" : 10
+            }
+          },
+          "metric" : {
+            "value" : "diag_e"
+          },
+          "metric_file" : "",
+          "stepsize" : 1,
+          "stepsize_jitter" : 0
+        }
+      },
+      "num_chains" : 1
+    }
+  },
+  "id" : 1,
+  "data" : {
+    "file" : "\/var\/folders\/7j\/r3pp69mj5zg2tjz7n005xh440000gn\/T\/RtmpHbYSkn\/standata-8cc261d3e17.json"
+  },
+  "init" : "2",
+  "random" : {
+    "seed" : 839400409
+  },
+  "output" : {
+    "file" : "\/Users\/eleanorpower\/Git\/endow\/endow-wealth-corr-rep-code\/DerivedData\/multilevel_model_output\/multilevel_model_mcmc-202608192351-1-7d19b5.csv",
+    "diagnostic_file" : "",
+    "refresh" : 50,
+    "sig_figs" : 8,
+    "profile_file" : "\/Users\/eleanorpower\/Git\/endow\/endow-wealth-corr-rep-code\/DerivedData\/multilevel_model_output\/multilevel_model_mcmc-profile-202608192351-1-90f5f9.csv",
+    "save_cmdstan_config" : true
+  },
+  "num_threads" : 2,
+  "mpi_enabled" : false,
+  "stanc_version" : "stanc3 v2.39.0",
+  "stancflags" : "--name=multilevel_model_mcmc_model"
+}

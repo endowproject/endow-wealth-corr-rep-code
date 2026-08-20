@@ -74,7 +74,7 @@ compute_site_stats <- function(trial_idx) {
 
     # Build weighted edge list for the sum layer at this site
     eds <- sum_edges[[s]]
-    w_edgelist <- data.table(cbind(as_edgelist(eds), E(eds)$weight))
+    w_edgelist <- data.table(cbind(igraph::as_edgelist(eds), igraph::edge_attr(eds, "weight")))
     names(w_edgelist) <- c("su_id", "alter_id", "weight")
     w_edgelist[, weight := as.numeric(weight)]
 

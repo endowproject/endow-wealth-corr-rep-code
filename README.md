@@ -11,7 +11,7 @@ This repo provides code to generate all of the figures and tables, using faux da
 
 Installation of the relevant R packages should be straightforward and take a matter of minutes, though installation of tools related to the use of Stan may take a bit longer to set up, depending on your operating system and configuration. (This is necessary only for the running of the multilevel model).
 
-With the faux data, the full script should take ~8 hours to run, largely thanks to the multilevel model (which will on its own take ~7 hours). Given this lengthy time, DerivedData already includes versions of the generated files.
+With the faux data, the full script should take ~10 hours to run, largely thanks to the multilevel model (which will on its own take ~8 hours). Given this lengthy time, DerivedData already includes versions of the generated files.
 
 ---
 

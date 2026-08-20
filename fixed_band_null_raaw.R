@@ -353,7 +353,7 @@ for (s in names(node_data_by_site)) {
   obs_el <- data.frame(
     su_id    = el_mat[, 1],
     alter_id = el_mat[, 2],
-    weight   = E(g)$weight,
+    weight   = igraph::edge_attr(g, "weight"),
     stringsAsFactors = FALSE
   )
   obs_el <- obs_el[obs_el$su_id %in% nd$su_id & obs_el$alter_id %in% nd$su_id, ]
