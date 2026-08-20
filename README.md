@@ -167,7 +167,7 @@ RUN_DATASET_GENERATION <- FALSE   # Skip Part B
 RUN_MODULARITY         <- FALSE   # Skip Part C
 RUN_MULTILEVEL         <- FALSE   # Skip Part D
 RUN_FIGURES            <- TRUE    # Run Part E only
-SITES_TO_DROP          <- c("AP", "BZ", "KS","PS","TP") # Drop sites we're not including
+SITES_TO_DROP          <- c("XX", "ZZ") # Drop sites we're not including
 ```
 
 Parts C through E read from saved files in `DerivedData/`, so you can run them independently as long as those files exist.
